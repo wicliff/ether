@@ -19,7 +19,7 @@ defmodule Ether.Middleware.BlockNumber do
     Logger.info("Initializing the Block Number to 0")
 
     block_number = 0
-    schedule_update()
+    schedule_update(100)
     {:ok, block_number}
   end
 
@@ -32,7 +32,7 @@ defmodule Ether.Middleware.BlockNumber do
   def handle_info(:update_block_number, _block_number) do
     Logger.info("Updating the Block Number from Mainnet")
 
-    schedule_update()
+    schedule_update(@frequency)
 
     # Get the total block count
     block_number =
@@ -48,7 +48,7 @@ defmodule Ether.Middleware.BlockNumber do
     {:noreply, block_number}
   end
 
-  defp schedule_update() do
-    Process.send_after(self(), :update_block_number, @frequency)
+  defp schedule_update(frequency) do
+    Process.send_after(self(), :update_block_number, frequency)
   end
 end
