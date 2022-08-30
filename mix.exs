@@ -7,7 +7,7 @@ defmodule Ether.MixProject do
       version: "0.1.0",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:gettext] ++ Mix.compilers(),
+      compilers: [] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps()
@@ -43,7 +43,25 @@ defmodule Ether.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.5"}
+      {:plug_cowboy, "~> 2.5"},
+
+      # For ETH
+      {:ethereumex, "~> 0.10.2"},
+
+      # UI
+      {:tailwind, "~> 0.1.6", runtime: Mix.env() == :dev},
+
+      # Live testing
+      {:mix_test_watch, "~> 1.1", only: [:test, :dev], runtime: false},
+      # Linting the code
+      {:credo, "~> 1.6", only: [:test, :dev], runtime: false},
+
+      # Security
+      {:sobelow, "~> 0.11.1", only: [:test, :dev], runtime: false},
+      {:mix_audit, "~> 2.0", only: [:dev, :test], runtime: false},
+
+      # Type Checking
+      {:dialyxir, "~> 1.2", only: [:test, :dev], runtime: false}
     ]
   end
 
@@ -56,7 +74,7 @@ defmodule Ether.MixProject do
   defp aliases do
     [
       setup: ["deps.get"],
-      "assets.deploy": ["esbuild default --minify", "phx.digest"]
+      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
     ]
   end
 end

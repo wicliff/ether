@@ -1,18 +1,45 @@
 # Ether
+Ether is a ETH payment tracking system. The application takes in a transaction hash and tracks the transaction until the sufficient number of blocks are confirmed.
 
-To start your Phoenix server:
+# Installation
+The app is a standard phoenix project without any dependencies. 
 
-  * Install dependencies with `mix deps.get`
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+1. Clone the project from the Repo
+```
+git clone git@github.com:wicliff/ether.git
+cd ether
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+```
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+2. Install `asdf` package manager if not installed already
 
-## Learn more
+Refer:
+https://github.com/asdf-vm/asdf
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+3. Install asdf plugins for erlang and elixir
+
+Refer:
+https://github.com/asdf-vm/asdf-erlang
+
+https://github.com/asdf-vm/asdf-elixir
+
+
+4. Install Erlang & Elixir (.tool-versions file already has the necessary versions needed)
+
+```
+asdf install
+```
+
+# Running
+Run the project using `mix phx.server`
+
+```
+iex -S mix phx.server
+```
+
+# Tests
+Core tests implemented
+
+```
+mix test
+```

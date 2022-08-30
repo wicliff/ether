@@ -17,7 +17,8 @@ defmodule EtherWeb.Router do
   scope "/", EtherWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    # get "/", PageController, :index
+    live "/", TransactionLive.Transaction, :transaction
   end
 
   # Other scopes may use custom stacks.

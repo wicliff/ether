@@ -14,6 +14,20 @@ config :ether, EtherWeb.Endpoint,
   pubsub_server: Ether.PubSub,
   live_view: [signing_salt: "6YhVtd97"]
 
+config :ethereumex,
+  url: "https://mainnet.infura.io/v3/7f3f56e0ecb34e3a9bc9ffc3a5429263"
+
+config :tailwind,
+  version: "3.1.8",
+  default: [
+    args: ~w(
+    --config=tailwind.config.js
+    --input=css/app.css
+    --output=../priv/static/assets/app.css
+  ),
+    cd: Path.expand("../assets", __DIR__)
+  ]
+
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.14.29",

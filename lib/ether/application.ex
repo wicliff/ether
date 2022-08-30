@@ -13,9 +13,12 @@ defmodule Ether.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Ether.PubSub},
       # Start the Endpoint (http/https)
-      EtherWeb.Endpoint
+      EtherWeb.Endpoint,
       # Start a worker by calling: Ether.Worker.start_link(arg)
       # {Ether.Worker, arg}
+
+      # Adding the Genserver to get the Blocknumber at regular intervals
+      {Ether.Middleware.BlockNumber, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

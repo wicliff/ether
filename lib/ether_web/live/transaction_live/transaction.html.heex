@@ -1,0 +1,66 @@
+<div class="relative mt-8">
+    <%= if @toggle_confirmation == true do %>
+    <.modal>
+        <.live_component
+          module={EtherWeb.TransactionLive.AlertComponent}
+          id={:transaction_confirmation}
+          transaction_hash={@transaction_hash}
+          transaction_valid={false}
+          transaction_exists={false}
+          transaction_added={false}
+        />
+      </.modal>
+    <% end %>
+
+
+<.form let={f} 
+for={:transaction} 
+id="transaction-form"
+class="flex items-center justify-center space-x-2 " 
+phx-submit="process_transaction">
+  <%= text_input f, :transaction_hash, placeholder: "Enter Transaction Hash", class: "text-gray-900 rounded w-3/5"  %>
+  <%= submit "Process", phx_disable_with: "Processing...", class: "px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"%>
+</.form>
+
+<div class="flex flex-col items-center justify-center mt-10">
+  <div class="text-xl">
+     Current Block Number
+  </div>
+  <div id="block_number" class="text-3xl font-medium">
+    <%= @block_number %>
+  </div>
+</div>
+
+
+<div class="flex flex-col items-center justify-center mt-8">
+<%= if @transactions != [] do %>
+<table class="w-4/5 border-collapse rounded-xl">
+  <thead class="text-xs text-gray-300 uppercase bg-blue-500">
+    <tr>
+      <th scope="col" class="px-6 py-3">Transaction</th>
+      <th scope="col" class="px-6 py-3">Value</th>
+      <th scope="col" class="px-6 py-3">Block Number</th>
+      <th scope="col" class="px-6 py-3">Blocks Confirmed</th>
+      <th scope="col" class="px-6 py-3">Confirmed?</th>
+    </tr>
+  </thead>
+  <tbody>
+  <%= for transaction <- @transactions do %>
+ <tr id={transaction.transaction_hash} class="bg-blue-400 border-b">
+      <td class="px-6 py-4"> <%= transaction.transaction_hash %> </td>
+      <td class="px-6 py-4"> <%= transaction.value %> </td>
+      <td class="px-6 py-4 text-center"> <%= transaction.block_number %> </td>
+      <td class="px-6 py-4 text-center"> <%= @block_number - transaction.block_number %> </td>
+      <td class="px-6 py-4 text-center"> 
+        <%= raw Utils.show_status(transaction.confirmed?) %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<% else %>
+ There are no transactions tracked yet.
+ <% end %>
+</div>
+
+</div>
