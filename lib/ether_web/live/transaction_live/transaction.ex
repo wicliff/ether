@@ -13,6 +13,7 @@ defmodule EtherWeb.TransactionLive.Transaction do
   @blocks_to_confirm 2
 
   @impl true
+  @spec mount(any, any, Phoenix.LiveView.Socket.t()) :: {:ok, map}
   def mount(_params, _session, socket) do
     if connected?(socket) do
       Process.send_after(self(), :update_block_number, @update_block_frequency)
@@ -24,7 +25,7 @@ defmodule EtherWeb.TransactionLive.Transaction do
       |> assign(:transactions, [])
       |> assign(:transaction, nil)
       |> assign(:transaction_hash, nil)
-      |> assign(:block_number, 0)
+      |> assign(:block_number, BlockNumber.get_block_number())
       |> assign(:toggle_confirmation, false)
 
     {:ok, socket}
@@ -50,6 +51,9 @@ defmodule EtherWeb.TransactionLive.Transaction do
   end
 
   @impl true
+  # Update the Current Block Number on the front end.
+  # Query the GenServer and push the value to the frontend
+  # Also, trigger updating the transaction status
   def handle_info(:update_block_number, socket) do
     Process.send_after(self(), :update_block_number, @update_block_frequency)
 
@@ -59,6 +63,7 @@ defmodule EtherWeb.TransactionLive.Transaction do
     {:noreply, assign(socket, block_number: block_number)}
   end
 
+  # Update the transaction status based on the current block number
   def handle_info(:update_transactions, socket) do
     current_transactions = socket.assigns.transactions
     block_number = socket.assigns.block_number

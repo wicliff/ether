@@ -8,6 +8,7 @@ defmodule Ether.Transactions do
 
   @hash_format ~r/^0x([A-Fa-f0-9]{64})$/
 
+  @spec add_transaction(list, map) :: {:error, any} | {:ok, list}
   def add_transaction(transactions, transaction_map) do
     if transaction_exists?(transactions, transaction_map) do
       {:ok, transactions}
@@ -45,6 +46,7 @@ defmodule Ether.Transactions do
   def valid_hash(_transaction_hash),
     do: {:error, "Invalid Transaction Hash Format"}
 
+  @spec get_transaction(boolean | binary | [binary] | map) :: {:error, <<_::312>>} | {:ok, any}
   def get_transaction(transaction_hash) do
     Logger.debug("Calling ETH API")
 
@@ -59,6 +61,8 @@ defmodule Ether.Transactions do
     end
   end
 
+  @spec update_transactions(list(Ether.Transactions.Transaction.t()), integer(), integer()) ::
+          list(Ether.Transactions.Transaction.t())
   def update_transactions(transactions, block_number, blocks_to_confirm) do
     Enum.map(transactions, fn t ->
       value = block_number - t.block_number >= blocks_to_confirm

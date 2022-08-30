@@ -51,7 +51,6 @@ defmodule EtherWeb.TransactionLiveTest do
              |> form("#transaction-form", transaction: @create_attrs)
              |> render_submit() =~
                "0x7b6d0e8d812873260291c3f8a9fa99a61721a033a01e5c5af3ceb5e1dc9e7bd0"
-
     end
   end
 end
